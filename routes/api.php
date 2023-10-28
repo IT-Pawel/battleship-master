@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\GameController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('tokencheck')->get('/user', function (Request $request) {
     return json_encode($request->user);
 });
+
+
+
+Route::group(['prefix'=> 'v1'], function(){
+    Route::group(['middleware' => ['tokencheck']], function () {
+        Route::get('/games', [GameController::class, 'index']);
+    });
+} );
